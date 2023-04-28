@@ -164,7 +164,6 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
         if (!this.drawArea) {
             const index = await getAreaIndex();
             console.log(index)
-
             if (!index)
                 return;
             this.drawArea = this.areaHandler.addArea(index);
