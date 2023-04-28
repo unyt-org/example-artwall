@@ -9,11 +9,7 @@ export const matrix = await lazyEternal ?? $$(
 export const areaMap = eternal ?? $$(new Map<Datex.Endpoint, number>());
 
 export async function getAreaIndex() {
-	console.log("a")
 	const endpoint = datex.meta?.sender;
-	console.log(endpoint)
-	return await 1;
-
 
 	if (!endpoint)
 		return -1;
