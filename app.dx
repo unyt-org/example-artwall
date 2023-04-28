@@ -1,0 +1,4 @@
+name: "unyt artwall"
+icon_path: "https://cdn.unyt.org/unyt_core/assets/square_dark.png"
+installable: true
+offline_support: true

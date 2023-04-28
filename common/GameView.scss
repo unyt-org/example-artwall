@@ -1,0 +1,257 @@
+:root {
+	touch-action: pan-x pan-y;
+	height: 100% 
+}
+
+* {
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+
+	-webkit-user-drag: none;
+	-khtml-user-drag: none;
+	-moz-user-drag: none;
+	-o-user-drag: none;
+	user-drag: none;
+}
+canvas {
+	width: 100%;
+	height: 100%;
+}
+#uiContainer {
+	display: flex;
+	position: fixed;
+	right: 0;
+	top: 0;
+	overflow: hidden;
+	background-color: #1d2332;
+	flex-direction: column;
+	border-bottom-left-radius: 10px;
+	box-shadow: 5px 5px 10px rgb(0, 0, 0);
+}
+#uiContainer > *.active {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+#uiContainer > * {
+	padding: 10px;
+	cursor: pointer;
+}
+#uiContainer > * .fa {
+	margin-right: 4px;
+}
+#uiContainer > *:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+#toolContainer {
+	position: fixed;
+	width: 92%;
+	max-width: 700px;
+	background-color: #1d2332;
+	bottom: 20px;
+	border-radius: 50px;
+	left: 0;
+	box-shadow: 5px 5px 10px rgb(0, 0, 0);
+	right: 0;
+	// padding: 20px;
+	margin: auto;
+	display: flex;
+	overflow: hidden;
+	justify-content: space-between;
+}
+#toolContainer .colors.palette {
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	align-self: center;
+}
+#toolContainer .colors.palette > div {
+	display: flex;
+}
+#toolContainer .colors.palette span {
+	width: 40px;
+	border-radius: 20px;
+	border: 1px solid rgb(134, 134, 134);
+	height: 40px;
+	margin: 5px;
+	background-color: var(--color);
+	position: relative;
+	transition: transform 0.1s linear;
+}
+#toolContainer .colors.palette span {
+	&:hover, &:active {
+		transform: scale(1.1);
+	}
+}
+#toolContainer .colors.palette span.active::after {
+	content: ' ';
+	width: calc(100% - 8px);
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	position: absolute;
+	background-color: transparent;
+	border: 3px solid white;
+	height: calc(100% - 8px);
+	border-radius: 20px;
+}
+#toolContainer .colors.palette span:nth-of-type(1).active::after {
+	border-color: black;
+}
+
+#toolContainer .tools {
+	padding: 10px;
+	display: flex;
+	margin-left: 20px;
+	right: 20px;
+	align-self: flex-end;
+	margin-bottom: -60px;
+}
+#toolContainer .tools img {
+	width: 40px;
+	margin: 10px;
+	// height: fit-content;
+	object-fit: contain;
+	margin-top: 40px;
+	transition: transform 0.1s linear, margin 0.2s linear;
+}
+#toolContainer .tools img {
+	&:hover, &:active {
+		transform: scale(1.1);
+	}
+}
+#toolContainer .tools img.active {
+	margin-top: 0px;
+}
+
+.color-picker {
+	display: none;
+}
+.color-picker .colors {
+	position: fixed;
+	width: 120px;
+	bottom: 120px;
+	display: flex;
+	border-radius: 10px;
+	flex-direction: row;
+	z-index: 2;
+	margin-left: -20px;
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity 0.2s linear;
+}
+.color-picker.active .colors {
+	visibility: visible;
+	opacity: 1;
+	z-index: 1;
+}
+.color-picker .colors::after {
+	content: ' ';
+	width: 0; 
+	height: 0; 
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	position: absolute;
+	bottom: -12px;
+	z-index: -1;
+	left: 0;
+	right: 0;
+	margin: auto;
+	border-top: 20px solid var(--color);
+}
+.color-picker .colors div {
+	display: flex;
+	width: 50%;
+	flex-direction: column;
+	overflow: hidden;
+}
+.color-picker .colors div:first-of-type {
+	border-radius: 10px 0px 0px 10px;
+}
+.color-picker .colors div:last-of-type {
+	border-radius: 0px 10px 10px 0px;
+}
+.color-picker .colors span {
+	width: 100%;
+	height: 40px;
+	background-color: var(--color);
+	position: relative;
+}
+.color-picker .colors span.active::after {
+	content: ' ';
+	position: absolute;
+	background-color: transparent;
+	border: 2px solid white;
+	width: 10px;
+	height: 10px;
+	margin: auto;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	border-radius: 100%;
+}
+.color-picker .colors span.active:nth-of-type(1):after {
+	border-color: black;
+}
+
+@media screen and (max-width: 670px) {
+	#toolContainer .colors.palette {
+		display: none!important;
+	}
+	#toolContainer {
+		border-radius: 30px;
+		justify-content: center;
+	}
+	.color-picker {
+		display: flex!important;
+		background: conic-gradient(
+			hsla(0, 100%, 50%, 1) 0deg,
+			hsla(60, 100%, 50%, 1) 60deg,
+			hsla(120, 100%, 50%, 1) 120deg,
+			hsla(180, 100%, 50%, 1) 180deg,
+			hsla(240, 100%, 50%, 1) 240deg,
+			hsla(300, 100%, 50%, 1) 300deg,
+			hsla(0, 100%, 50%, 1)
+		);
+		position: relative;
+		border-radius: 40px;
+		width: 80px;
+		height: 80px;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		margin-left: 0px;
+		margin-right: 10px;
+		overflow: hidden;
+	}
+	.color-picker::after {
+		content: ' ';
+		width: calc(100% - 50px);
+		height: calc(100% - 50px);
+		background-color: var(--color);
+		margin: auto;
+		position: relative;
+		border-radius: 40px;
+		border: 5px solid white;
+	}
+}
+@media screen and (max-width: 470px) {
+	#toolContainer .tools img {
+		&:nth-of-type(2) {
+			display: none;
+		}
+	}
+}
+@media screen and (max-width: 370px) {
+	#toolContainer .tools img {
+		&:nth-of-type(3) {
+			display: none;
+		}
+	}
+}
