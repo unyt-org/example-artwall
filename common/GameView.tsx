@@ -1,5 +1,4 @@
 import { UIX, IEL } from "uix/uix.ts";
-import { Game } from "./Game.ts";
 import DrawTool from './DrawTool.ts';
 import { COLORS, Point, Position, SIZE } from "./globals.ts";
 import Tool from './Tool.ts';
@@ -7,12 +6,14 @@ import DragTool from './DragTool.ts';
 import { Tools } from './Tool.ts';
 import AreaHandler, { Area } from "./AreaHandler.ts";
 
-import { GameMap } from "./GameMap.ts";
+import { Array2d } from "./Array2d.ts";
 import { matrix, getAreaIndex } from "backend/entrypoint.tsx";
 import { Datex } from "unyt_core/datex.ts";
-GameMap
-const scheduler = new Datex.UpdateScheduler(50);
-scheduler.addPointer(matrix);
+Array2d
+const scheduler = new Datex.UpdateScheduler(20);
+scheduler.addPointer(matrix.data);
+
+console.log("matrix",matrix)
 
 @UIX.template(
 	<div id="view" style="opacity: 0">
@@ -81,7 +82,7 @@ scheduler.addPointer(matrix);
         </div>
     </div>
 )
-export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {game:Game}> {
+export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options> {
 
 	@UIX.id declare canvas: HTMLCanvasElement
     @UIX.id declare gameContainer: HTMLDivElement
@@ -98,7 +99,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
     }
     private activeTool?: Tool;
 
-    public matrix: GameMap = matrix;
+    public matrix: Array2d = matrix;
 
     private export() {
         const position = {...this.position};
@@ -136,8 +137,6 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
         this.position.x = dX;
         this.position.y = dY;
     }
-
-    game = this.options.game
 
 	get width() { return this.gameContainer.getBoundingClientRect().width }
 	get height() { return this.gameContainer.getBoundingClientRect().height }
@@ -377,8 +376,6 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
     }
 
     draw() {
-        this.game.update();
-
         // reset
         this.ctx.clearRect(0, 0, this.width, this.height);
      

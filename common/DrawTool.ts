@@ -1,12 +1,12 @@
 import { Point } from "./globals.ts";
 import Tool from "./Tool.ts";
 import { Area } from './AreaHandler.ts';
-import { GameMap } from './GameMap.ts';
+import { Array2d } from './GameMap.ts';
 
 export default class DrawTool extends Tool {
 	private isDrawing = false;
     private lastPoint?: Point = undefined;
-	private matrix: GameMap;
+	private matrix: Array2d;
     private _color = 1;
     private _size = 1;
     private allowedArea?: Area;
@@ -25,7 +25,7 @@ export default class DrawTool extends Tool {
         return this._size;
     }
 
-	constructor(matrix: GameMap, allowedArea?: Area) {
+	constructor(matrix: Array2d, allowedArea?: Area) {
         super();
 		this.matrix = matrix;
         allowedArea && (this.allowedArea = allowedArea);

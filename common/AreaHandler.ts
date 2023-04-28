@@ -1,13 +1,13 @@
 import { type GameView } from './GameView.tsx';
 import { Point, SIZE, DIGITS } from "./globals.ts";
-import { GameMap } from './GameMap.ts';
+import { Array2d } from './GameMap.ts';
 
 export class Area {
 	private position: Point;
-	private matrix: GameMap;
+	private matrix: Array2d;
 	public static size = 33;
 
-	constructor(matrix: GameMap, index: number = 0) {
+	constructor(matrix: Array2d, index: number = 0) {
 		this.position = this.calculatePosition(index + 1);
 		this.matrix = matrix;
 		this.drawNumber(this.center, index + 1);

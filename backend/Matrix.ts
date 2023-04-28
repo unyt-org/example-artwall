@@ -1,8 +1,8 @@
-import { GameMap } from '../common/GameMap.ts';
+import { Array2d } from '../common/GameMap.ts';
 import { QRCODE } from "../common/globals.ts";
 
 export class Matrix {
-	public static  drawQRCode(matrix: GameMap) {	
+	public static  drawQRCode(matrix: Array2d) {	
 		const offsetX = Math.floor(matrix.width / 2 - QRCODE[0].length / 2);
 		const offsetY = Math.floor(matrix.height / 2 - QRCODE.length / 2);
 
@@ -15,7 +15,7 @@ export class Matrix {
 			}
 		}
 	}
-	public static drawCenterArea(matrix: GameMap) {
+	public static drawCenterArea(matrix: Array2d) {
 		const size = 33;
 		const offsetX = Math.floor(matrix.width / 2 - size / 2);
 		const offsetY = Math.floor(matrix.height / 2 - size / 2);

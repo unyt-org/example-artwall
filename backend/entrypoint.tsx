@@ -1,29 +1,26 @@
 import { SIZE } from "../common/globals.ts";
-import { $$, anonymous, Datex } from "unyt_core";
-import { GameMap } from "common/GameMap.ts";
+import { $$, Datex } from "unyt_core";
+import { Array2d } from "common/Array2d.ts";
 import { Matrix } from './Matrix.ts';
 
-const scheduler = new Datex.UpdateScheduler(50);
+const scheduler = new Datex.UpdateScheduler(20);
 Datex.Compiler.SIGN_DEFAULT = false;
 
-// Datex.MessageLogger.enable();
+// Datex.MessageLogger.enable()
 
-export const matrix = await lazyEternal ?? $$(
-	new GameMap(SIZE.width, SIZE.height)
+export const matrix = /*await lazyEternal ??*/ $$(
+	new Array2d(SIZE.width, SIZE.height)
 );
 Matrix.drawCenterArea(matrix);
 Matrix.drawQRCode(matrix);
 
-scheduler.addPointer(matrix);
+scheduler.addPointer(matrix.data);
 
-export const areaMap = eternal ?? $$(new Map<Datex.Endpoint, number>());
+export const areaMap = /*eternal ??*/ $$(new Map<Datex.Endpoint, number>());
 
 export async function getAreaIndex() {
 	const endpoint = datex.meta?.sender;
-	if (!endpoint)
-		return -1;
-	if (areaMap.has(endpoint))
-		return areaMap.get(endpoint);
-	const index = Math.max(...areaMap.values(), 0) + 1;
-	return await areaMap.set(endpoint, index), index;
+	if (!endpoint) return -1;
+	if (!areaMap.has(endpoint)) areaMap.set(endpoint, Math.max(...areaMap.values(), 0) + 1)
+	return await areaMap.get(endpoint);
 }
