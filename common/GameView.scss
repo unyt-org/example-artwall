@@ -2,6 +2,14 @@
 	touch-action: pan-x pan-y;
 	height: 100% 
 }
+#view {
+	transition: opacity 0.5s;
+}
+
+#view.visible {
+	opacity: 1!important;
+}
+
 
 * {
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -32,6 +40,7 @@ canvas {
 	border-bottom-left-radius: 10px;
 	box-shadow: 5px 5px 10px rgb(0, 0, 0);
 }
+
 #uiContainer > *.active {
 	background-color: rgba(255, 255, 255, 0.2);
 }
@@ -61,6 +70,12 @@ canvas {
 	display: flex;
 	overflow: hidden;
 	justify-content: space-between;
+}
+
+#view.empty {
+	& #uiContainer, #toolContainer {
+		display: none;
+	}
 }
 #toolContainer .colors.palette {
 	display: flex;

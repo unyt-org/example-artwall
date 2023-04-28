@@ -8,7 +8,7 @@ import { Tools } from './Tool.ts';
 import AreaHandler, { Area } from "./AreaHandler.ts";
 
 @UIX.template(
-	<div>
+	<div id="view" style="opacity: 0">
         <div id="uiContainer">
             <span data-tool="Drag">
                 {IEL`fa-up-down-left-right`} Explore
@@ -138,7 +138,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
 	get width() { return this.gameContainer.getBoundingClientRect().width }
 	get height() { return this.gameContainer.getBoundingClientRect().height }
 
-	protected override onDisplay() {
+	protected override async onDisplay() {
         this.createMatrix();
         this.alignCanvas();
         this.areaHandler = new AreaHandler(this);
@@ -153,6 +153,9 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
 		this.addListeners();
 		this.onResize();
 		this.draw();
+
+        await new Promise((r)=>setTimeout(r, 2000));
+        this.querySelector("div")?.classList.add("visible");
 	}
 
     private async requestArea() {
@@ -236,6 +239,10 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
                 }
             })
         });
+
+        UIX.Res.addShortcut("search", "ctrl+d")
+		UIX.Handlers.handleShortcut(globalThis.window, "search", () => 
+            this.querySelector("#view")?.classList.toggle("empty"));
 
         this.canvas.addEventListener("wheel", (e) => {
             if (this.activeTool === this.dragTool ||
@@ -355,14 +362,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
 
         // reset
         this.ctx.clearRect(0, 0, this.width, this.height);
-        this.ctx.setLineDash([]);
-        this.ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
-        
-        this.ctx.strokeRect(
-            this.position.x, 
-            this.position.y, 
-            SIZE.width * this.position.scale, 
-            SIZE.height * this.position.scale);
+     
 
         this.areaHandler.areas.forEach((area) => {
             const {x,y} = area.tl;
