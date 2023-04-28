@@ -2,6 +2,7 @@ import { Point } from "./globals.ts";
 import Tool from "./Tool.ts";
 import { Area } from './AreaHandler.ts';
 import { GameMap } from './GameMap.ts';
+import { Tools } from './Tool.ts';
 
 export default class DrawTool extends Tool {
 	private isDrawing = false;
@@ -10,6 +11,8 @@ export default class DrawTool extends Tool {
     private _color = 1;
     private _size = 1;
     private allowedArea?: Area;
+
+    override readonly type = Tools.Draw;
 
     public setColor(value: number) {
         this._color = value;
