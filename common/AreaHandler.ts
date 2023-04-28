@@ -1,6 +1,6 @@
 import { type GameView } from './GameView.tsx';
 import { Point, SIZE, DIGITS } from "./globals.ts";
-import { Array2d } from './GameMap.ts';
+import { Array2d } from './Array2d.ts';
 
 export class Area {
 	private position: Point;
@@ -8,9 +8,9 @@ export class Area {
 	public static size = 33;
 
 	constructor(matrix: Array2d, index: number = 0) {
-		this.position = this.calculatePosition(index + 1);
+		this.position = this.calculatePosition(index);
 		this.matrix = matrix;
-		this.drawNumber(this.center, index + 1);
+		this.drawNumber(this.center, index);
 	}
 
 	public isInside(point: Point): boolean {

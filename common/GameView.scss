@@ -89,7 +89,6 @@ canvas {
 #toolContainer .colors.palette span {
 	width: 40px;
 	border-radius: 20px;
-	border: 1px solid rgb(134, 134, 134);
 	height: 40px;
 	margin: 5px;
 	background-color: var(--color);
@@ -111,7 +110,7 @@ canvas {
 	margin: auto;
 	position: absolute;
 	background-color: transparent;
-	border: 3px solid white;
+	border: 3px solid #1d2332;
 	height: calc(100% - 8px);
 	border-radius: 20px;
 }

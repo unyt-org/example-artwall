@@ -6,9 +6,6 @@ import { Datex } from "unyt_core/datex.ts";
 UIX.Theme.setMode("dark")
 Datex.Compiler.SIGN_DEFAULT = false;
 
-// Datex.MessageLogger.enable()
-
 export default {
-	// create new game
-	'*': UIX.once(() => <GameView/>)
+	'/startupsued': UIX.once(() => <GameView/>)
 } satisfies UIX.Entrypoint

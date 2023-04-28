@@ -1,5 +1,5 @@
 import { Point, Position } from "./globals.ts";
-import Tool from "./Tool.ts";
+import Tool, { Tools } from "./Tool.ts";
 import { SIZE } from './globals.ts';
 
 export default class DragTool extends Tool {
@@ -7,6 +7,7 @@ export default class DragTool extends Tool {
 	private isDragging = false;
     private lastPoint?: Point = undefined;
 
+    override readonly type = Tools.Drag;
 	constructor(position: Position) {
 		super();
 		this.position = position;

@@ -233,13 +233,12 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options> {
         });
 
         this.querySelectorAll("#uiContainer > *").forEach((elem) => {
-            const tool = elem.getAttribute("data-tool") as keyof Tool;
+            const tool = elem.getAttribute("data-tool") as unknown as 0;
             elem.addEventListener("click", () => {
                 if (Tools[tool] !== undefined) {
                     this.querySelectorAll("#uiContainer > *").forEach(e => e.classList.toggle("active", e === elem));
                     const _tool = Tools[tool] as unknown as Tools;
                     this.setTool(_tool)
-
                     if (_tool === Tools.Draw)
                         this.requestArea();
                 }
@@ -380,15 +379,15 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options> {
         this.ctx.clearRect(0, 0, this.width, this.height);
      
 
-        this.areaHandler.areas.forEach((area) => {
-            const {x,y} = area.tl;
+        if (this.drawArea && this.activeTool && this.activeTool.type === Tools.Draw) {
+            const {x,y} = this.drawArea.tl;
             const posX = Math.floor(x * this.position.scale + this.position.x), 
                   posY = Math.floor(y * this.position.scale + this.position.y);
-            const size = Math.ceil(this.position.scale * area.size);
+            const size = Math.ceil(this.position.scale * this.drawArea.size);
             this.ctx.strokeStyle = "white";
             this.ctx.setLineDash([5,10]);
             this.ctx.strokeRect(posX, posY, size, size);
-        })
+        }
 
         const renderStart: Point = {
             x: Math.floor(Math.max(-this.position.x / this.position.scale, 0)),

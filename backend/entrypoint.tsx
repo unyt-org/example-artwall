@@ -2,6 +2,8 @@ import { SIZE } from "../common/globals.ts";
 import { $$, Datex } from "unyt_core";
 import { Array2d } from "common/Array2d.ts";
 import { Matrix } from './Matrix.ts';
+import { UIX } from "uix/uix.ts";
+import { Homepage } from '../common/Homepage.tsx';
 
 const scheduler = new Datex.UpdateScheduler(20);
 Datex.Compiler.SIGN_DEFAULT = false;
@@ -24,3 +26,9 @@ export async function getAreaIndex() {
 	if (!areaMap.has(endpoint)) areaMap.set(endpoint, Math.max(...areaMap.values(), 0) + 1)
 	return await areaMap.get(endpoint);
 }
+
+UIX.Theme.setMode("dark");
+export default {
+	'/startupsued': null,
+	'*': UIX.renderStatic(new Homepage())
+} satisfies UIX.Entrypoint;
