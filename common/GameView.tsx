@@ -154,7 +154,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
 		this.onResize();
 		this.draw();
 
-        await new Promise((r)=>setTimeout(r, 2000));
+        await new Promise((r)=>setTimeout(r, 1000));
         this.querySelector("div")?.classList.add("visible");
 	}
 
