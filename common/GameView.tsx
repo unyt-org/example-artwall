@@ -406,7 +406,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
     }
 
     private getColor(color: number): string {
-        if (color === 9999)
+        if (color === 100)
             return "white";
         return COLORS[Math.abs(color)] ?? "transparent"
     }

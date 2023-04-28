@@ -1,6 +1,7 @@
 import { SIZE } from "../common/globals.ts";
 import { $$, anonymous, Datex } from "unyt_core";
 import { GameMap } from "common/GameMap.ts";
+import { Matrix } from './Matrix.ts';
 
 const scheduler = new Datex.UpdateScheduler(50);
 Datex.Compiler.SIGN_DEFAULT = false;
@@ -10,7 +11,9 @@ Datex.Compiler.SIGN_DEFAULT = false;
 export const matrix = await lazyEternal ?? $$(
 	new GameMap(SIZE.width, SIZE.height)
 );
-console.log(matrix)
+Matrix.drawCenterArea(matrix);
+Matrix.drawQRCode(matrix);
+
 scheduler.addPointer(matrix);
 
 export const areaMap = eternal ?? $$(new Map<Datex.Endpoint, number>());
