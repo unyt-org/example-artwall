@@ -52,15 +52,19 @@ export class Area {
 		let i = 0;
 		let k = 1;
 		while (i < index) {
-			for (let m = 0; m < k && i < index; m++)
+			for (let m = 0; m < k && i < index; m++) {
 				x++; i++;
-			for (let n = 0; n < k && i < index; n++)
+			}
+			for (let n = 0; n < k && i < index; n++) {
 				y++; i++;
+			}
 			k++;
-			for (let m = 0; m < k && i < index; m++)
+			for (let m = 0; m < k && i < index; m++) {
 				x--; i++;
-			for (let n = 0; n < k && i < index; n++)
+			}
+			for (let n = 0; n < k && i < index; n++) {
 				y--; i++;
+			}
 			k++;
 		}
 		return {
