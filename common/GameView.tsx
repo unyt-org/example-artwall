@@ -7,9 +7,12 @@ import { Tools } from './Tool.ts';
 import AreaHandler, { Area } from "./AreaHandler.ts";
 
 import { Array2d } from "./Array2d.ts";
-import { matrix, getAreaIndex } from "backend/entrypoint.tsx";
+import { Data, getAreaIndex } from "backend/entrypoint.tsx";
 import { Datex } from "unyt_core/datex.ts";
 Array2d
+
+const matrix = await Data.getMatrix();
+
 const scheduler = new Datex.UpdateScheduler(20);
 scheduler.addPointer(matrix.data);
 

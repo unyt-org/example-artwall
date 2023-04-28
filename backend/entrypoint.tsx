@@ -1,5 +1,5 @@
 import { SIZE } from "../common/globals.ts";
-import { $$, Datex } from "unyt_core";
+import { $$, Datex, timeout } from "unyt_core";
 import { Array2d } from "common/Array2d.ts";
 import { Matrix } from './Matrix.ts';
 import { UIX } from "uix/uix.ts";
@@ -10,13 +10,23 @@ Datex.Compiler.SIGN_DEFAULT = false;
 
 // Datex.MessageLogger.enable()
 
-export const matrix = /*await lazyEternal ??*/ $$(
+const matrix = /*await lazyEternal ??*/ $$(
 	new Array2d(SIZE.width, SIZE.height)
 );
 Matrix.drawCenterArea(matrix);
 Matrix.drawQRCode(matrix);
 
 scheduler.addPointer(matrix.data);
+
+@endpoint
+export class Data {
+	/**
+	 * allows DXB generation time max. 20s, anything elso is unreasonable
+	 */
+	@timeout(20_000) @property static getMatrix() {
+		return matrix;
+	}
+}
 
 export const areaMap = /*eternal ??*/ $$(new Map<Datex.Endpoint, number>());
 
