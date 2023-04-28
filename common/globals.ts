@@ -17,8 +17,8 @@ export const COLORS = [
 ];
 
 export const SIZE = {
-	width: 300,
-	height: 300
+	width: 200,
+	height: 200
 };
 
 const M = (e: string) => e.split("\n").filter(e => !!e).map(e => e.trim().split('').map(e => +e));

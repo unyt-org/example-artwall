@@ -5,12 +5,12 @@ import { GameMap } from "common/GameMap.ts";
 const scheduler = new Datex.UpdateScheduler(50);
 Datex.Compiler.SIGN_DEFAULT = false;
 
-Datex.MessageLogger.enable();
+// Datex.MessageLogger.enable();
 
 export const matrix = await lazyEternal ?? $$(
 	new GameMap(SIZE.width, SIZE.height)
 );
-
+console.log(matrix)
 scheduler.addPointer(matrix);
 
 export const areaMap = eternal ?? $$(new Map<Datex.Endpoint, number>());

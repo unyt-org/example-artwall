@@ -296,7 +296,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
                 this.drawTool.onMove(point);
         } else if (this.activeTool === this.dragTool) {
             const point: Point = this.getScreenPoint(e);
-            if (e instanceof TouchEvent && e.touches.length === 2) {
+            if (globalThis.TouchEvent && e instanceof TouchEvent && e.touches.length === 2) {
                 const touch1: Point = { x: e.touches[0].pageX, y: e.touches[0].pageY };
                 const touch2: Point = { x: e.touches[1].pageX, y: e.touches[1].pageY };
                 const dist = Math.hypot(touch1.x - touch2.x, touch1.y - touch2.y);
