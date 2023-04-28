@@ -16,9 +16,8 @@ export async function getAreaIndex() {
 	const endpoint = datex.meta?.sender;
 	if (!endpoint)
 		return -1;
-	console.log(areaMap)
 	if (areaMap.has(endpoint))
 		return areaMap.get(endpoint);
-	const index = Math.max(...areaMap.values(), 1);
+	const index = Math.max(...areaMap.values(), 1) + 1;
 	return await areaMap.set(endpoint, index), index;
 }
