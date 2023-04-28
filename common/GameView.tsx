@@ -9,7 +9,10 @@ import AreaHandler, { Area } from "./AreaHandler.ts";
 
 import { GameMap } from "./GameMap.ts";
 import { matrix, getAreaIndex } from "backend/entrypoint.tsx";
+import { Datex } from "unyt_core/datex.ts";
 GameMap
+const scheduler = new Datex.UpdateScheduler(50);
+scheduler.addPointer(matrix);
 
 @UIX.template(
 	<div id="view" style="opacity: 0">
@@ -141,8 +144,6 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
 
 	protected override async onDisplay() {
         this.alignCanvas();
-
-
         this.areaHandler = new AreaHandler(this);
         this.dragTool = new DragTool(this.position);
         this.drawTool = new DrawTool(this.matrix);
