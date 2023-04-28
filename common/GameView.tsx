@@ -7,6 +7,10 @@ import DragTool from './DragTool.ts';
 import { Tools } from './Tool.ts';
 import AreaHandler, { Area } from "./AreaHandler.ts";
 
+import { GameMap } from "./GameMap.ts";
+import { matrix, getAreaIndex } from "backend/entrypoint.tsx";
+GameMap
+
 @UIX.template(
 	<div id="view" style="opacity: 0">
         <div id="uiContainer">
@@ -91,7 +95,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
     }
     private activeTool?: Tool;
 
-    public matrix: number[][] = [];
+    public matrix: GameMap = matrix;
 
     private export() {
         const position = {...this.position};
@@ -114,9 +118,6 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
         this.position.scale = position.scale;
     }
 
-    private createMatrix() {
-        this.matrix = Array(SIZE.height).fill(null).map(()=>Array(SIZE.width).fill(0))
-    }
     private alignCanvas() {
         this.position.scale = Math.min(
             (window.innerWidth / SIZE.width),
@@ -139,8 +140,9 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
 	get height() { return this.gameContainer.getBoundingClientRect().height }
 
 	protected override async onDisplay() {
-        this.createMatrix();
         this.alignCanvas();
+
+
         this.areaHandler = new AreaHandler(this);
         this.dragTool = new DragTool(this.position);
         this.drawTool = new DrawTool(this.matrix);
@@ -160,7 +162,12 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
 
     private async requestArea() {
         if (!this.drawArea) {
-            this.drawArea = this.areaHandler.addArea(0);
+            const index = await getAreaIndex();
+            console.log(index)
+
+            if (!index)
+                return;
+            this.drawArea = this.areaHandler.addArea(index);
             this.drawTool.setArea(this.drawArea);
         }
 
@@ -379,8 +386,8 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
             y: Math.floor(Math.max(-this.position.y / this.position.scale, 0))
         }
         const renderEnd: Point = {
-            x: Math.min(Math.ceil(renderStart.x + window.innerWidth / this.position.scale), this.matrix[0].length),
-            y: Math.min(Math.ceil(renderStart.y + window.innerHeight / this.position.scale), this.matrix.length)
+            x: Math.min(Math.ceil(renderStart.x + window.innerWidth / this.position.scale), this.matrix.width),
+            y: Math.min(Math.ceil(renderStart.y + window.innerHeight / this.position.scale), this.matrix.height)
         }
         
         for (let y=renderStart.y; y<renderEnd.y; y++) {
@@ -388,7 +395,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
                 const posX = Math.floor(x * this.position.scale + this.position.x), 
                       posY = Math.floor(y * this.position.scale + this.position.y);
                 const size = Math.ceil(this.position.scale);
-                const color = this.matrix[y][x];
+                const color = this.matrix.get(x, y);
                 if (color && posX < this.width && posY < this.height) {
                     this.ctx.fillStyle = this.getColor(color);
                     this.ctx.fillRect(posX, posY, size, size);
@@ -399,7 +406,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
     }
 
     private getColor(color: number): string {
-        if (color === Infinity)
+        if (color === 9999)
             return "white";
         return COLORS[Math.abs(color)] ?? "transparent"
     }

@@ -1,12 +1,13 @@
 import { type GameView } from './GameView.tsx';
 import { Point, SIZE, QRCODE, DIGITS } from "./globals.ts";
+import { GameMap } from './GameMap.ts';
 
 export class Area {
 	private position: Point;
-	private matrix: number[][];
+	private matrix: GameMap;
 	public static size = 33;
 
-	constructor(matrix: number[][], index: number = 0) {
+	constructor(matrix: GameMap, index: number = 0) {
 		this.position = this.calculatePosition(index + 1);
 		this.matrix = matrix;
 		this.drawNumber(this.center, index + 1);
@@ -20,7 +21,7 @@ export class Area {
 	public get isEmpty(): boolean {
 		for (let y=this.tl.y; y<this.br.y; y++) {
 			for (let x=this.tl.x; x<this.br.x; x++) {
-				if (this.matrix[y][x] !== 0 && Math.abs(this.matrix[y][x]) !== Infinity)
+				if (this.matrix.get(x, y) !== 0 && Math.abs(this.matrix.get(x, y)) !== 9999)
 					return false;
 			}	
 		}
@@ -33,7 +34,10 @@ export class Area {
 			const digit = DIGITS[numberStr[index] as '0']
 			for (let y=0; y<digit.length; y++)
 				for (let x=0; x<digit[y].length; x++)
-					this.matrix[position.y + y - 4][Math.floor(position.x + x + index*6 - (6*numberStr.length)/2)] = digit[y][x] ? Infinity : 0;
+					this.matrix.set(
+						Math.floor(position.x + x + index*6 - (6*numberStr.length)/2),
+						position.y + y - 4, 
+						digit[y][x] ? 9999 : 0);
 		}
 	}
 
@@ -88,8 +92,8 @@ export default class AreaHandler {
 	private game: GameView;
 	constructor(game: GameView) {
 		this.game = game;
-		this.drawCenterArea();
-		this.drawQRCode();
+		// this.drawCenterArea();
+		// this.drawQRCode();
 	}
 
 	public areas: Array<Area> = [];
@@ -100,25 +104,26 @@ export default class AreaHandler {
 	}
 
 	private drawQRCode() {	
-		const offsetX = Math.floor(this.game.matrix[0].length / 2 - QRCODE[0].length / 2);
-		const offsetY = Math.floor(this.game.matrix.length / 2 - QRCODE.length / 2);
+		console.log(this.game.matrix.width, this.game.matrix.height)
+		const offsetX = Math.floor(this.game.matrix.width / 2 - QRCODE[0].length / 2);
+		const offsetY = Math.floor(this.game.matrix.height / 2 - QRCODE.length / 2);
 
 		for (let y=0; y<QRCODE.length; y++) {
 			for (let x=0; x<QRCODE[y].length; x++) {
 				const val = QRCODE[y][x] === 0 ? -2 : -1;
 				const mX = x + offsetX;
 				const mY = y + offsetY;
-				this.game.matrix[mY][mX] = val;
+				this.game.matrix.set(mX, mY, val);
 			}
 		}
 	}
 
 	private drawCenterArea() {
 		const size = 33;
-		const offsetX = Math.floor(this.game.matrix[0].length / 2 - size / 2);
-		const offsetY = Math.floor(this.game.matrix.length / 2 - size / 2);
+		const offsetX = Math.floor(this.game.matrix.width / 2 - size / 2);
+		const offsetY = Math.floor(this.game.matrix.height / 2 - size / 2);
 		for (let y=0; y<size; y++)
 			for (let x=0; x<size; x++)
-				this.game.matrix[y + offsetY][x + offsetX] = -Infinity;
+				this.game.matrix.set(x + offsetX, y + offsetY, -9999);
 	}
 }

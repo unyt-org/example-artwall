@@ -1,11 +1,12 @@
 import { Point } from "./globals.ts";
 import Tool from "./Tool.ts";
 import { Area } from './AreaHandler.ts';
+import { GameMap } from './GameMap.ts';
 
 export default class DrawTool extends Tool {
 	private isDrawing = false;
     private lastPoint?: Point = undefined;
-	private matrix: number[][] = [];
+	private matrix: GameMap;
     private _color = 1;
     private _size = 1;
     private allowedArea?: Area;
@@ -24,7 +25,7 @@ export default class DrawTool extends Tool {
         return this._size;
     }
 
-	constructor(matrix: number[][], allowedArea?: Area) {
+	constructor(matrix: GameMap, allowedArea?: Area) {
         super();
 		this.matrix = matrix;
         allowedArea && (this.allowedArea = allowedArea);
@@ -44,8 +45,8 @@ export default class DrawTool extends Tool {
             if (!this.allowedArea.isInside({x: _x, y: _y}))
                 continue;
             if (Math.sqrt((_x - x) ** 2 + (_y - y) ** 2) <= radius) {
-                if (_x < this.matrix[_y]?.length && this.matrix[_y][_x] >= 0)
-                    this.matrix[_y][_x] = color;
+                if (_x < this.matrix.width && this.matrix.get(_x, _y) >= 0)
+                    this.matrix.set(_x, _y, color);
             }
           }
         }
