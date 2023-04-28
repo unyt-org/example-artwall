@@ -81,7 +81,7 @@ scheduler.addPointer(matrix);
         </div>
     </div>
 )
-export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {game:Game}> {
+export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & { game:Game }> {
 
 	@UIX.id declare canvas: HTMLCanvasElement
     @UIX.id declare gameContainer: HTMLDivElement
@@ -234,13 +234,12 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
         });
 
         this.querySelectorAll("#uiContainer > *").forEach((elem) => {
-            const tool = elem.getAttribute("data-tool") as keyof Tool;
+            const tool = elem.getAttribute("data-tool") as unknown as 0;
             elem.addEventListener("click", () => {
                 if (Tools[tool] !== undefined) {
                     this.querySelectorAll("#uiContainer > *").forEach(e => e.classList.toggle("active", e === elem));
                     const _tool = Tools[tool] as unknown as Tools;
                     this.setTool(_tool)
-
                     if (_tool === Tools.Draw)
                         this.requestArea();
                 }

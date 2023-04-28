@@ -8,9 +8,9 @@ export class Area {
 	public static size = 33;
 
 	constructor(matrix: GameMap, index: number = 0) {
-		this.position = this.calculatePosition(index + 1);
+		this.position = this.calculatePosition(index);
 		this.matrix = matrix;
-		this.drawNumber(this.center, index + 1);
+		this.drawNumber(this.center, index);
 	}
 
 	public isInside(point: Point): boolean {

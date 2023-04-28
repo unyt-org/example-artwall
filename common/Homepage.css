@@ -1,0 +1,18 @@
+#main {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	height: 100%;
+}
+#main, #main * {
+	-webkit-user-select: none;
+	user-select: none;
+}
+#main h1 {
+	font-size: 40px;
+}
+#main a {
+	font-size: 20px;
+}
