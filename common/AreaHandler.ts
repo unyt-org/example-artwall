@@ -37,7 +37,7 @@ export class Area {
 					this.matrix.set(
 						Math.floor(position.x + x + index*6 - (6*numberStr.length)/2),
 						position.y + y - 4, 
-						digit[y][x] ? 255 : 0);
+						digit[y][x] ? 100 : 0);
 		}
 	}
 
