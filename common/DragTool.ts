@@ -33,7 +33,7 @@ export default class DragTool extends Tool {
 
 	public onZoom(point: Point, zoomFactor: number): void;
 	public onZoom(point: Point, zoomIn: boolean): void;
-	public onZoom(point: Point, zoom: boolean | number): void {
+	public onZoom(point: Point, zoom: boolean | number): void {
 		const scale = typeof zoom === "boolean" ? (zoom ? 0.9 : 1.1): zoom;
 		const newScale = this.position.scale * scale;
 		const dx = (point.x - this.position.x) * (1 - scale);

@@ -255,6 +255,8 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
             if (this.activeTool === this.dragTool ||
                 this.activeTool === this.drawTool) {
                 const point = this.getScreenPoint(e);
+                if (!point)
+                    return;
                 const zoomIn = e.deltaY > 0;
                 this.dragTool.onZoom(point, zoomIn);
             }
@@ -278,6 +280,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
 	}
 
     private onUp(_: MouseEvent | TouchEvent) {
+        this.prefDist = 0;
         if (this.activeTool === this.drawTool) {
             document.body.style.cursor = 'default';
             this.drawTool.onUp()
@@ -295,7 +298,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
             if (this.drawArea?.isInside(point))
                 this.drawTool.onMove(point);
         } else if (this.activeTool === this.dragTool) {
-            const point: Point = this.getScreenPoint(e);
+            const point = this.getScreenPoint(e);
             if (globalThis.TouchEvent && e instanceof TouchEvent && e.touches.length === 2) {
                 const touch1: Point = { x: e.touches[0].pageX, y: e.touches[0].pageY };
                 const touch2: Point = { x: e.touches[1].pageX, y: e.touches[1].pageY };
@@ -304,9 +307,16 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
                     x: (touch1.x + touch2.x)/2,
                     y: (touch1.y + touch2.y)/2
                 };
-                this.dragTool.onZoom(center, this.prefDist > dist);
+                if (!this.prefDist)
+                    this.prefDist = dist;
+
+                const factor = (dist / this.prefDist) * (
+                    dist > this.prefDist ? 1/0.97 : 0.97
+                );
+
+                this.dragTool.onZoom(center, factor);
                 this.prefDist = dist;
-            } else this.dragTool.onMove(point);
+            } else if (point) this.dragTool.onMove(point);
         }
     }
     private onDown(e: MouseEvent | TouchEvent) {
@@ -317,17 +327,19 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options & {gam
                 this.drawTool.onDown(point);
         } else if (this.activeTool === this.dragTool) {
             document.body.style.cursor = 'move';
-            const point: Point = this.getScreenPoint(e);
-            this.dragTool.onDown(point);
+            const point = this.getScreenPoint(e);
+            point && this.dragTool.onDown(point);
         }
     }
 
-    private getScreenPoint(e: MouseEvent | TouchEvent): Point {
+    private getScreenPoint(e: MouseEvent | TouchEvent): Point | null {
         if (e instanceof MouseEvent)
             return {
                 x: e.clientX,
                 y: e.clientY
             };
+        if (!e.touches.length)
+            return null;
         return {
             x: e.touches[0].clientX,
             y: e.touches[0].clientY
