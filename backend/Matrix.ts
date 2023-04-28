@@ -8,7 +8,7 @@ export class Matrix {
 
 		for (let y=0; y<QRCODE.length; y++) {
 			for (let x=0; x<QRCODE[y].length; x++) {
-				const val = QRCODE[y][x] === 0 ? -2 : -1;
+				const val = QRCODE[y][x] === 0 ? 0 : -2;
 				const mX = x + offsetX;
 				const mY = y + offsetY;
 				matrix.set(mX, mY, val);

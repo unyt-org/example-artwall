@@ -8,25 +8,16 @@ import { Homepage } from '../common/Homepage.tsx';
 const scheduler = new Datex.UpdateScheduler(20);
 Datex.Compiler.SIGN_DEFAULT = false;
 
-// Datex.MessageLogger.enable()
-
-const matrix = /*await lazyEternal ??*/ $$(
+export const matrix = /*await lazyEternalVar("matrix") ??*/ $$(
 	new Array2d(SIZE.width, SIZE.height)
 );
+
 Matrix.drawCenterArea(matrix);
 Matrix.drawQRCode(matrix);
 
 scheduler.addPointer(matrix.data);
 
-@endpoint
-export class Data {
-	/**
-	 * allows DXB generation time max. 20s, anything elso is unreasonable
-	 */
-	@timeout(20_000) @property static getMatrix() {
-		return matrix;
-	}
-}
+
 
 export const areaMap = /*eternal ??*/ $$(new Map<Datex.Endpoint, number>());
 

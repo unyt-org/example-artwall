@@ -1,16 +1,18 @@
-import { constructor } from "unyt_core/datex.ts";
+import type { inferDatexType } from "unyt_core/types/type.ts";
+import { Datex, constructor } from "unyt_core/datex.ts";
 
-@sync("GameMap") export class Array2d {
-    @property width = 0
-    @property height = 0
-
-    @property data!:Array<number>;
+@sync("Array2d") export class Array2d {
+    @property width!: number
+    @property height!: number
+    @property data!: inferDatexType<typeof Datex.Type.std.Array_8>
 	
-    constructor(width: number, height: number) { }
+    constructor(width: number, height: number) {}
 	@constructor construct(width: number, height: number) {
 		this.width = width;
 		this.height = height;
 		this.data = new Array(this.width * this.height).fill(0);
+        // treat as mutable <Array/u8> in DATEX, normal Array in JS
+        Datex.Type.bindType(this.data, Datex.Type.std.Array_8);
 	}
 
     get(x:number, y:number) {
