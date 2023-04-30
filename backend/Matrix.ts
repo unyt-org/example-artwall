@@ -19,9 +19,11 @@ export class Matrix {
 		const size = 33;
 		const offsetX = Math.floor(matrix.width / 2 - size / 2);
 		const offsetY = Math.floor(matrix.height / 2 - size / 2);
-		for (let y=0; y<size; y++)
-			for (let x=0; x<size; x++)
+		for (let y=0; y<size; y++) {
+			for (let x=0; x<size; x++) {
 				matrix.set(x + offsetX, y + offsetY, -100);
+			}
+		}			
 	}
 
 }

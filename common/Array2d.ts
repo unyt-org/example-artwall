@@ -10,9 +10,10 @@ import { Datex, constructor } from "unyt_core/datex.ts";
 	@constructor construct(width: number, height: number) {
 		this.width = width;
 		this.height = height;
-		this.data = new Array(this.width * this.height).fill(0);
+        const data = new Array(this.width * this.height).fill(0);
         // treat as mutable <Array/u8> in DATEX, normal Array in JS
-        Datex.Type.bindType(this.data, Datex.Type.std.Array_8);
+        Datex.Type.bindType(data, Datex.Type.std.Array_8);
+		this.data = data;
 	}
 
     get(x:number, y:number) {
