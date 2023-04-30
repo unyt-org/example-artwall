@@ -8,7 +8,7 @@ export class Area {
 	public static size = 33;
 
 	constructor(matrix: Array2d, index: number = 0) {
-		this.position = this.calculatePosition(index);
+		this.position = Area.calculatePosition(index);
 		this.matrix = matrix;
 		this.drawNumber(this.center, index);
 	}
@@ -46,7 +46,7 @@ export class Area {
 		return Area.size;
 	}
 
-	private calculatePosition(index: number): Point {
+	public static calculatePosition(index: number): Point {
 		let x = 0;
 		let y = 0;
 		let i = 0;

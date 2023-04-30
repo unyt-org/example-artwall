@@ -14,8 +14,6 @@ Array2d
 const scheduler = new Datex.UpdateScheduler(20);
 scheduler.addPointer(matrix.data);
 
-console.log("matrix",matrix)
-
 @UIX.template(
 	<div id="view" style="opacity: 0">
         <div id="uiContainer">
@@ -28,7 +26,7 @@ console.log("matrix",matrix)
             </span>
             </span>
             <span data-tool="Draw">
-                {IEL`fa-pen`} <b>Join!</b>
+                {IEL`fa-pen`} <b>Draw!</b>
             </span>
         </div>
         <div id="toolContainer">
@@ -40,14 +38,18 @@ console.log("matrix",matrix)
                     <span style={`--color:${COLORS[4]}`}></span>
                     <span style={`--color:${COLORS[5]}`}></span>
                     <span style={`--color:${COLORS[6]}`}></span>
-                </div>
-                <div>
                     <span style={`--color:${COLORS[7]}`}></span>
                     <span style={`--color:${COLORS[8]}`}></span>
+                </div>
+                <div>
                     <span style={`--color:${COLORS[9]}`}></span>
                     <span style={`--color:${COLORS[10]}`}></span>
                     <span style={`--color:${COLORS[11]}`}></span>
                     <span style={`--color:${COLORS[12]}`}></span>
+                    <span style={`--color:${COLORS[13]}`}></span>
+                    <span style={`--color:${COLORS[14]}`}></span>
+                    <span style={`--color:${COLORS[15]}`}></span>
+                    <span style={`--color:${COLORS[16]}`}></span>
                 </div>
             </div> 
             <div class="tools">
@@ -65,15 +67,18 @@ console.log("matrix",matrix)
                         <span style={`--color:${COLORS[4]}`}></span>
                         <span style={`--color:${COLORS[5]}`}></span>
                         <span style={`--color:${COLORS[6]}`}></span>
-                    </div>
-
-                    <div>
                         <span style={`--color:${COLORS[7]}`}></span>
                         <span style={`--color:${COLORS[8]}`}></span>
+                    </div>
+                    <div>
                         <span style={`--color:${COLORS[9]}`}></span>
                         <span style={`--color:${COLORS[10]}`}></span>
                         <span style={`--color:${COLORS[11]}`}></span>
                         <span style={`--color:${COLORS[12]}`}></span>
+                        <span style={`--color:${COLORS[13]}`}></span>
+                        <span style={`--color:${COLORS[14]}`}></span>
+                        <span style={`--color:${COLORS[15]}`}></span>
+                        <span style={`--color:${COLORS[16]}`}></span>
                     </div>
                 </div>
             </div>
@@ -109,7 +114,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options> {
             (window.innerHeight / SIZE.height)
         ) * 0.99;
         this.alignPosition();
-        this.draw();
+        this.draw(true);
         
         const link = document.createElement('a');
         link.setAttribute('href', this.canvas.toDataURL());
@@ -129,7 +134,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options> {
             (window.innerHeight / SIZE.height)
         ) * 0.99;
 
-        this.position.scale = 4;
+        this.position.scale = 6;
         this.alignPosition();
     }
     private alignPosition() {
@@ -375,7 +380,8 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options> {
         this.alignCanvas();
     }
 
-    draw() {
+
+    draw(screenshot?: boolean) {
         // reset
         this.ctx.clearRect(0, 0, this.width, this.height);
      
@@ -398,9 +404,11 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options> {
             y: Math.ceil(Math.min(Math.ceil(renderStart.y + window.innerHeight / this.position.scale), this.matrix.height))
         }
         
-        const resolution = +(1 + Math.max(0, ((renderEnd.y - renderStart.x) / SIZE.width - 0.5))).toFixed(1);
+        const resolution = screenshot ? 
+            1 : 
+            +(1 + 1.2*Math.max(0, ((renderEnd.y - renderStart.x) / SIZE.width - 0.5))).toFixed(1);
         for (let y = renderStart.y - renderStart.y % resolution; y < renderEnd.y; y += resolution) {
-            for (let x = renderStart.y - renderStart.y % resolution; x < renderEnd.x; x += resolution) {
+            for (let x = renderStart.x - renderStart.x % resolution; x < renderEnd.x; x += resolution) {
                 const posX = Math.floor(x * this.position.scale + this.position.x);
                 const posY = Math.floor(y * this.position.scale + this.position.y);
                 const size = Math.ceil(this.position.scale * resolution);
@@ -411,7 +419,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options> {
                 }
             }
         }
-        globalThis.requestAnimationFrame(() => this.draw());
+        if (!screenshot) globalThis.requestAnimationFrame(() => this.draw());
     }
 
     private getColor(color: number): string {

@@ -1,19 +1,23 @@
 export type Point = { x: number, y: number };
 export type Position = Point & { scale: number};
 export const COLORS = [
-	"transparent",
-	"black",
-	"white",
-	"#5856d6",
-	"#007aff",
-	"#34aadc",
-	"#5ac8fa",
-	"#4cd964",
-	"#ff2d55",
-	"#ff3b30",
-	"#ff9500",
-	"#ffcc00",
-	"#8e8e93",
+	"#00000000",
+	"#000000",
+	"#ffffff",
+	"#888888",
+	"#FFA7D1",
+	"#CF6EE4",
+	"#820080",
+	"#e44901",
+	"#E50000",
+	"#E59500",
+	"#E5D900",
+	"#02BE01",
+	"#94E044",
+	"#00D3DD",
+	"#0083C7",
+	"#0000EA",
+	"#A06A42"
 ];
 
 export const SIZE = {
