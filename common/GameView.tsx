@@ -129,7 +129,7 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options> {
             (window.innerHeight / SIZE.height)
         ) * 0.99;
 
-        this.position.scale = 5;
+        this.position.scale = 4;
         this.alignPosition();
     }
     private alignPosition() {
@@ -389,22 +389,22 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options> {
             this.ctx.setLineDash([5,10]);
             this.ctx.strokeRect(posX, posY, size, size);
         }
-
         const renderStart: Point = {
             x: Math.floor(Math.max(-this.position.x / this.position.scale, 0)),
             y: Math.floor(Math.max(-this.position.y / this.position.scale, 0))
         }
         const renderEnd: Point = {
-            x: Math.min(Math.ceil(renderStart.x + window.innerWidth / this.position.scale), this.matrix.width),
-            y: Math.min(Math.ceil(renderStart.y + window.innerHeight / this.position.scale), this.matrix.height)
+            x: Math.ceil(Math.min(Math.ceil(renderStart.x + window.innerWidth / this.position.scale), this.matrix.width)),
+            y: Math.ceil(Math.min(Math.ceil(renderStart.y + window.innerHeight / this.position.scale), this.matrix.height))
         }
         
-        for (let y=renderStart.y; y<renderEnd.y; y++) {
-            for (let x=renderStart.x; x<renderEnd.x; x++) {
-                const posX = Math.floor(x * this.position.scale + this.position.x), 
-                      posY = Math.floor(y * this.position.scale + this.position.y);
-                const size = Math.ceil(this.position.scale);
-                const color = this.matrix.get(x, y);
+        const resolution = +(1 + Math.max(0, ((renderEnd.y - renderStart.x) / SIZE.width - 0.5))).toFixed(1);
+        for (let y = renderStart.y - renderStart.y % resolution; y < renderEnd.y; y += resolution) {
+            for (let x = renderStart.y - renderStart.y % resolution; x < renderEnd.x; x += resolution) {
+                const posX = Math.floor(x * this.position.scale + this.position.x);
+                const posY = Math.floor(y * this.position.scale + this.position.y);
+                const size = Math.ceil(this.position.scale * resolution);
+                const color = this.matrix.get(Math.floor(x), Math.floor(y));
                 if (color && posX < this.width && posY < this.height) {
                     this.ctx.fillStyle = this.getColor(color);
                     this.ctx.fillRect(posX, posY, size, size);
