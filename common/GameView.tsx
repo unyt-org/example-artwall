@@ -32,24 +32,24 @@ scheduler.addPointer(matrix.data);
         <div id="toolContainer">
             <div class="colors palette">
                 <div>
-                    <span style={`--color:${COLORS[2]}`}></span>
-                    <span style={`--color:${COLORS[1]}`}></span>
-                    <span style={`--color:${COLORS[3]}`}></span>
-                    <span style={`--color:${COLORS[4]}`}></span>
-                    <span style={`--color:${COLORS[5]}`}></span>
-                    <span style={`--color:${COLORS[6]}`}></span>
-                    <span style={`--color:${COLORS[7]}`}></span>
-                    <span style={`--color:${COLORS[8]}`}></span>
+                    <span data-color="2" style={`--color:${COLORS[2]}`}></span>
+                    <span data-color="1" style={`--color:${COLORS[1]}`}></span>
+                    <span data-color="3" style={`--color:${COLORS[3]}`}></span>
+                    <span data-color="4" style={`--color:${COLORS[4]}`}></span>
+                    <span data-color="5" style={`--color:${COLORS[5]}`}></span>
+                    <span data-color="6" style={`--color:${COLORS[6]}`}></span>
+                    <span data-color="7" style={`--color:${COLORS[7]}`}></span>
+                    <span data-color="8" style={`--color:${COLORS[8]}`}></span>
                 </div>
                 <div>
-                    <span style={`--color:${COLORS[9]}`}></span>
-                    <span style={`--color:${COLORS[10]}`}></span>
-                    <span style={`--color:${COLORS[11]}`}></span>
-                    <span style={`--color:${COLORS[12]}`}></span>
-                    <span style={`--color:${COLORS[13]}`}></span>
-                    <span style={`--color:${COLORS[14]}`}></span>
-                    <span style={`--color:${COLORS[15]}`}></span>
-                    <span style={`--color:${COLORS[16]}`}></span>
+                    <span data-color="9" style={`--color:${COLORS[9]}`}></span>
+                    <span data-color="10" style={`--color:${COLORS[10]}`}></span>
+                    <span data-color="11" style={`--color:${COLORS[11]}`}></span>
+                    <span data-color="12" style={`--color:${COLORS[12]}`}></span>
+                    <span data-color="13" style={`--color:${COLORS[13]}`}></span>
+                    <span data-color="14" style={`--color:${COLORS[14]}`}></span>
+                    <span data-color="15" style={`--color:${COLORS[15]}`}></span>
+                    <span data-color="16" style={`--color:${COLORS[16]}`}></span>
                 </div>
             </div> 
             <div class="tools">
@@ -61,24 +61,24 @@ scheduler.addPointer(matrix.data);
             <div class="color-picker">
                 <div class="colors">
                     <div>
-                        <span style={`--color:${COLORS[2]}`}></span>
-                        <span style={`--color:${COLORS[1]}`}></span>
-                        <span style={`--color:${COLORS[3]}`}></span>
-                        <span style={`--color:${COLORS[4]}`}></span>
-                        <span style={`--color:${COLORS[5]}`}></span>
-                        <span style={`--color:${COLORS[6]}`}></span>
-                        <span style={`--color:${COLORS[7]}`}></span>
-                        <span style={`--color:${COLORS[8]}`}></span>
+                        <span data-color="2" style={`--color:${COLORS[2]}`}></span>
+                        <span data-color="1" style={`--color:${COLORS[1]}`}></span>
+                        <span data-color="3" style={`--color:${COLORS[3]}`}></span>
+                        <span data-color="4" style={`--color:${COLORS[4]}`}></span>
+                        <span data-color="5" style={`--color:${COLORS[5]}`}></span>
+                        <span data-color="6" style={`--color:${COLORS[6]}`}></span>
+                        <span data-color="7" style={`--color:${COLORS[7]}`}></span>
+                        <span data-color="8" style={`--color:${COLORS[8]}`}></span>
                     </div>
                     <div>
-                        <span style={`--color:${COLORS[9]}`}></span>
-                        <span style={`--color:${COLORS[10]}`}></span>
-                        <span style={`--color:${COLORS[11]}`}></span>
-                        <span style={`--color:${COLORS[12]}`}></span>
-                        <span style={`--color:${COLORS[13]}`}></span>
-                        <span style={`--color:${COLORS[14]}`}></span>
-                        <span style={`--color:${COLORS[15]}`}></span>
-                        <span style={`--color:${COLORS[16]}`}></span>
+                        <span data-color="9" style={`--color:${COLORS[9]}`}></span>
+                        <span data-color="10" style={`--color:${COLORS[10]}`}></span>
+                        <span data-color="11" style={`--color:${COLORS[11]}`}></span>
+                        <span data-color="12" style={`--color:${COLORS[12]}`}></span>
+                        <span data-color="13" style={`--color:${COLORS[13]}`}></span>
+                        <span data-color="14" style={`--color:${COLORS[14]}`}></span>
+                        <span data-color="15" style={`--color:${COLORS[15]}`}></span>
+                        <span data-color="16" style={`--color:${COLORS[16]}`}></span>
                     </div>
                 </div>
             </div>
@@ -219,7 +219,14 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options> {
             const color = COLORS.indexOf(elem.style.getPropertyValue("--color")?.trim());
             elem.addEventListener("click", (e) => {
                 this.querySelectorAll("#toolContainer .colors span").forEach((e) => e.classList.toggle("active", (e as HTMLElement).style.getPropertyValue("--color") === elem.style.getPropertyValue("--color")));
+                if (this.drawTool.color === 0 && color !== 0) {
+                    this.drawTool.setSize(1);
+                    this.querySelectorAll("#toolContainer .tools img").forEach(e => e.classList.toggle("active", false));
+                    (this.querySelector(`#toolContainer .tools img[data-size='1']`) as HTMLImageElement).classList.toggle("active", true);
+                }
                 this.drawTool.setColor(color);
+
+                this.previousColor = color;
                 colorPicker.style.setProperty("--color", COLORS[color]);
                 colorPicker.classList.toggle("active", false);
                 e.stopPropagation();
@@ -231,10 +238,18 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options> {
             elem.addEventListener("click", () => {
                 this.querySelectorAll("#toolContainer .tools img").forEach(e => e.classList.toggle("active", e === elem))
                 if (size === -1) {
+                    this.previousColor = this.drawTool.color;
+                    this.querySelectorAll("#toolContainer .colors span").forEach(e => e.classList.toggle("active", false));
                     colorPicker.style.setProperty("--color", COLORS[0]);
                     this.drawTool.setSize(3);
                     this.drawTool.setColor(0);
-                } else this.drawTool.setSize(size);
+                } else {
+                    (this.querySelector(`#toolContainer .colors span[data-color='${this.previousColor}']`) as HTMLSpanElement)
+                        .click();
+
+                    // this.drawTool.setColor(this.previousColor);
+                    this.drawTool.setSize(size);
+                }
             });
         });
 
@@ -282,6 +297,8 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options> {
         (document.body.querySelector("#uiContainer > *")! as HTMLElement)
             .click();
 	}
+
+    private previousColor = 2;
 
     private onUp(_: MouseEvent | TouchEvent) {
         this.prefDist = 0;
