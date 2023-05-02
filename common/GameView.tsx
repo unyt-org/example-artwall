@@ -30,6 +30,7 @@ scheduler.addPointer(matrix.data);
             </span>
         </div>
         <div id="toolContainer">
+            <span class="fa fa-chevron-down" id="close"/>
             <div class="colors palette">
                 <div>
                     <span data-color="2" style={`--color:${COLORS[2]}`}></span>
@@ -206,7 +207,11 @@ export class GameView extends UIX.BaseComponent<UIX.BaseComponent.Options> {
         const colorPicker = this.querySelector("#toolContainer .color-picker") as HTMLDivElement;
         this.addEventListener('click', () => {
             colorPicker.classList.toggle("active", false);
-        }); 
+        });
+
+        this.querySelector("#close")?.addEventListener("click", () => {
+            this.querySelector("#toolContainer")!.classList.toggle("hidden");
+        });
 
         colorPicker.addEventListener("click", (e) => {
             if (+this.querySelector("#toolContainer .tools img.active")?.getAttribute("data-size")! === -1)

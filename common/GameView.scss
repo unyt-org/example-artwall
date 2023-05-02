@@ -3,6 +3,20 @@
 	height: 100%;
 	overflow: hidden;
 }
+#close {
+	position: fixed;
+	width: 50px;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: xx-large;
+	color: white;
+	border-radius: 10px;
+	margin-top: -8px;
+	margin-left: -8px;
+	background-color: #1d2332;
+}
 #view {
 	transition: opacity 0.5s;
 }
@@ -74,6 +88,23 @@ canvas {
 	display: flex;
 	overflow: hidden;
 	justify-content: space-between;
+
+	transition: bottom 1s, opacity 0.2s;
+}
+#toolContainer.hidden {
+	bottom: -500px;
+}
+#toolContainer.hidden *:not(#close) {
+	opacity: 0;
+}
+#toolContainer.hidden #close {
+	bottom: 10px;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+#toolContainer.hidden #close::before {
+	content: "\f077"
 }
 
 #view.empty {
