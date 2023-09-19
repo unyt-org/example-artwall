@@ -1,5 +1,5 @@
 import { Path } from "unyt_node/path.ts";
-import { OpenGraphPreviewImageGenerator } from "uix/base/open_graph.ts";
+import { OpenGraphPreviewImageGenerator } from "uix/base/open-graph.ts";
 
 export const unytArtwallOpenGraphImageGenerator: OpenGraphPreviewImageGenerator = {
 	getImageURL() {
