@@ -7,5 +7,5 @@ UIX.Theme.setMode("dark")
 Datex.Compiler.SIGN_DEFAULT = false;
 
 export default {
-	'/startupsued': UIX.once(() => <GameView/>)
+	'/join': UIX.once(() => <GameView/>)
 } satisfies UIX.Entrypoint

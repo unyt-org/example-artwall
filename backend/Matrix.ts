@@ -2,11 +2,10 @@ import { Path } from "unyt_node/path.ts";
 import { Array2d } from 'common/Array2d.ts';
 import { QRCODE } from "common/globals.ts";
 import * as jpegts from "https://deno.land/x/jpegts@1.1/mod.ts";
-import * as pngs from "https://deno.land/x/pngs/mod.ts";
+import * as pngs from "https://deno.land/x/pngs@0.1.1/mod.ts";
 
 import { COLORS } from 'common/globals.ts';
 import { Area } from 'common/AreaHandler.ts';
-
 
 export class Matrix {
 	public static drawQRCode(matrix: Array2d) {	
@@ -56,13 +55,6 @@ export class Matrix {
 		z = (z > 0.008856) ? Math.pow(z, 1/3) : (7.787 * z) + 16/116;
 		return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)];
 	}
-
-	// public static colorDelta(color1: {r: number, g: number, b: number}, color2: {r: number, g: number, b: number}) {
-	// 	const r = 255 - Math.abs(color1.r - color2.r);
-	// 	const g = 255 - Math.abs(color1.g - color2.g);
-	// 	const b = 255 - Math.abs(color1.b - color2.b);
-	// 	return (r / 255 + g / 255 + b / 255) / 3;
-	// }
 
 	public static hexToRgb(hex: string) {
 		return {

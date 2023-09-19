@@ -12,6 +12,6 @@ export class Homepage extends UIX.Components.Base {
 
 	@content main = <div>
 		<h1>Artwall</h1>
-		<a href="/startupsued">{IEL`fa-pen`} Join!</a>
+		<a href="/join">{IEL`fa-pen`} Join!</a>
 	</div>
 }

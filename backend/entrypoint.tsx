@@ -47,6 +47,6 @@ export async function getAreaIndex() {
 
 UIX.Theme.setMode("dark");
 export default {
-	'/startupsued': null,
+	'/join': null,
 	'*': UIX.renderStatic(new Homepage())
 } satisfies UIX.Entrypoint;
