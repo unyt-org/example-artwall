@@ -1,4 +1,4 @@
-import { Path } from "unyt_node/path.ts";
+import { Path } from "uix/utils/path.ts";
 import { Array2d } from 'common/Array2d.ts';
 import { QRCODE } from "common/globals.ts";
 import * as jpegts from "https://deno.land/x/jpegts@1.1/mod.ts";

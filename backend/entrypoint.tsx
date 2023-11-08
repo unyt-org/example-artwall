@@ -4,7 +4,7 @@ import { Array2d } from "common/Array2d.ts";
 import { Matrix } from './Matrix.ts';
 import { UIX } from "uix/uix.ts";
 import { Homepage } from 'common/Homepage.tsx';
-import { Path } from 'unyt_node/path.ts';
+import { Path } from 'uix/utils/path.ts';
 import { Area } from 'common/AreaHandler.ts';
 
 const scheduler = new Datex.UpdateScheduler(20);
